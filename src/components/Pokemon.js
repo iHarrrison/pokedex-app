@@ -3,7 +3,7 @@ import axios from 'axios';
 import { Container } from '@material-ui/core';
 import SearchBar from './SearchBar';
 import SearchButton from './SearchButton';
-import Card from './Card';
+import PokemonCard from './PokemonCard';
 
 const Pokemon = () => {
     const [pokemonList, setPokemonList] = useState([]);
@@ -43,7 +43,7 @@ const Pokemon = () => {
         <Container maxWidth="sm">
             <SearchBar value={searchTerm} onChange={handleSearchTermChange} />
             <SearchButton onClick={handleSearchButtonClick} />
-            {selectedPokemon && <Card pokemon={selectedPokemon} />}
+            {selectedPokemon && <PokemonCard pokemon={selectedPokemon} />}
         </Container>
     );
 };

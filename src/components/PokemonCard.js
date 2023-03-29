@@ -2,7 +2,7 @@ import React from 'react';
 import { Card, CardContent, CardHeader, CardMedia, Typography } from '@material-ui/core';
 
 
-const Card = ({ pokemon }) => {
+const PokemonCard = ({ pokemon }) => {
     return (
         <Card>
             <CardHeader title={pokemon.name} />
@@ -15,4 +15,4 @@ const Card = ({ pokemon }) => {
     );
 };
 
-export default Card;
+export default PokemonCard;
