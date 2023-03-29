@@ -1,13 +1,17 @@
 import React from 'react';
+import { Card, CardContent, CardHeader, CardMedia, Typography } from '@material-ui/core';
+
 
 const Card = ({ pokemon }) => {
     return (
-        <div className="card">
-            <h2>{pokemon.name}</h2>
-            <img src={pokemon.sprites.front_default} alt={pokemon.name} />
-            <p>Height: {pokemon.height} cm</p>
-            <p>Weight: {pokemon.weight} kg</p>
-        </div>
+        <Card>
+            <CardHeader title={pokemon.name} />
+            <CardMedia component="img" image={pokemon.sprites.front_default} alt={pokemon.name} />
+            <CardContent>
+                <Typography variant="body1">Height: {pokemon.height} cm</Typography>
+                <Typography variant="body1">Weight: {pokemon.weight} kg</Typography>
+            </CardContent>
+        </Card>
     );
 };
 

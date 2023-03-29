@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import { Container } from '@material-ui/core';
 import SearchBar from './SearchBar';
 import SearchButton from './SearchButton';
 import Card from './Card';
@@ -39,11 +40,11 @@ const Pokemon = () => {
     };
 
     return (
-        <div>
+        <Container maxWidth="sm">
             <SearchBar value={searchTerm} onChange={handleSearchTermChange} />
             <SearchButton onClick={handleSearchButtonClick} />
             {selectedPokemon && <Card pokemon={selectedPokemon} />}
-        </div>
+        </Container>
     );
 };
 
