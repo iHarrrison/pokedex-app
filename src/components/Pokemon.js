@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import SearchBar from './SearchBar';
 import SearchButton from './SearchButton';
+import Card from './Card';
 
 const Pokemon = () => {
     const [pokemonList, setPokemonList] = useState([]);
@@ -41,14 +42,7 @@ const Pokemon = () => {
         <div>
             <SearchBar value={searchTerm} onChange={handleSearchTermChange} />
             <SearchButton onClick={handleSearchButtonClick} />
-            {selectedPokemon && (
-                <div>
-                    <h2>{selectedPokemon.name}</h2>
-                    <img src={selectedPokemon.sprites.front_default} alt={selectedPokemon.name} />
-                    <p>Height: {selectedPokemon.height} cm</p>
-                    <p>Weight: {selectedPokemon.weight} kg</p>
-                </div>
-            )}
+            {selectedPokemon && <Card pokemon={selectedPokemon} />}
         </div>
     );
 };
