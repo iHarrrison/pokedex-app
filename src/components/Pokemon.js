@@ -11,7 +11,7 @@ const Pokemon = () => {
     const [selectedPokemon, setSelectedPokemon] = useState(null);
 
     useEffect(() => {
-        axios.get('https://pokeapi.co/api/v2/pokemon')
+        axios.get('https://pokeapi.co/api/v2/pokemon?limit=1118')
             .then(response => {
                 setPokemonList(response.data.results);
             })
