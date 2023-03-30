@@ -10,6 +10,7 @@ const Pokemon = () => {
     const [searchTerm, setSearchTerm] = useState('');
     const [selectedPokemon, setSelectedPokemon] = useState(null);
 
+    // limit on the API get is the current maximum number of pokemon in the API.
     useEffect(() => {
         axios.get('https://pokeapi.co/api/v2/pokemon?limit=1118')
             .then(response => {
