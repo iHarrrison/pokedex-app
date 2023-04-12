@@ -11,7 +11,7 @@ import {
 } from '@material-ui/core';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 
-const PokemonCard = ({ pokemon, description }) => {
+const PokemonSummary = ({ pokemon, description }) => {
     return (
         <Card>
             <CardHeader title={pokemon.name.charAt(0).toUpperCase() + pokemon.name.slice(1)} />
@@ -70,4 +70,4 @@ const PokemonCard = ({ pokemon, description }) => {
     );
 };
 
-export default PokemonCard;
+export default PokemonSummary;
