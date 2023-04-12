@@ -1,5 +1,15 @@
 import React from 'react';
-import { Card, CardContent, CardHeader, CardMedia, Typography } from '@material-ui/core';
+import {
+    Card,
+    CardContent,
+    CardHeader,
+    CardMedia,
+    Typography,
+    Accordion,
+    AccordionSummary,
+    AccordionDetails
+} from '@material-ui/core';
+import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 
 const PokemonCard = ({ pokemon, description }) => {
     return (
@@ -25,7 +35,36 @@ const PokemonCard = ({ pokemon, description }) => {
                         </li>
                     ))}
                 </ul>
-                {description && <Typography variant="body1">Description: {description}</Typography>}
+                <Typography variant="body1">Pokemon Description:</Typography>
+                <Typography variant="body1">{description}</Typography>
+                <Accordion>
+                    <AccordionSummary expandIcon={<ExpandMoreIcon />}>
+                        <Typography variant="body1">Base Stats</Typography>
+                    </AccordionSummary>
+                    <AccordionDetails>
+                        <ul style={{ textTransform: 'capitalize' }}>
+                            {pokemon.stats.map((stat) => (
+                                <li key={stat.stat.name}>
+                                    <Typography variant="body1">{stat.stat.name}: {stat.base_stat}</Typography>
+                                </li>
+                            ))}
+                        </ul>
+                    </AccordionDetails>
+                </Accordion>
+                <Accordion>
+                    <AccordionSummary expandIcon={<ExpandMoreIcon />}>
+                        <Typography variant="body1">Movesets</Typography>
+                    </AccordionSummary>
+                    <AccordionDetails>
+                        <ul style={{ textTransform: 'capitalize' }}>
+                            {pokemon.moves.map((move) => (
+                                <li key={move.move.name}>
+                                    <Typography variant="body1">{move.move.name}</Typography>
+                                </li>
+                            ))}
+                        </ul>
+                    </AccordionDetails>
+                </Accordion>
             </CardContent>
         </Card>
     );
