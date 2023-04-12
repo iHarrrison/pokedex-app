@@ -9,8 +9,10 @@ const Pokemon = () => {
     const [pokemonList, setPokemonList] = useState([]);
     const [searchTerm, setSearchTerm] = useState('');
     const [selectedPokemon, setSelectedPokemon] = useState(null);
+    const [pokemonDescription, setPokemonDescription] = useState('');
+    const [errorMessage, setErrorMessage] = useState('');
 
-    // limit on the API get is the current maximum number of pokemon in the API.
+    // Limit on the API search is the current max pokemom number.
     useEffect(() => {
         axios.get('https://pokeapi.co/api/v2/pokemon?limit=1118')
             .then(response => {
@@ -20,6 +22,25 @@ const Pokemon = () => {
                 console.log(error);
             });
     }, []);
+
+    useEffect(() => {
+        if (selectedPokemon) {
+            axios.get(`https://pokeapi.co/api/v2/pokemon-species/${selectedPokemon.id}`)
+                .then(response => {
+                    const englishDescription = response.data.flavor_text_entries.find(entry => entry.language.name === 'en');
+                    setPokemonDescription(englishDescription.flavor_text);
+                    setErrorMessage('');
+                })
+                .catch(error => {
+                    console.log(error);
+                    setPokemonDescription('');
+                    setErrorMessage('Error retrieving Pokémon description.');
+                });
+        } else {
+            setPokemonDescription('');
+            setErrorMessage('');
+        }
+    }, [selectedPokemon]);
 
     const handleSearchTermChange = (event) => {
         setSearchTerm(event.target.value);
@@ -34,9 +55,12 @@ const Pokemon = () => {
                 })
                 .catch(error => {
                     console.log(error);
+                    setPokemonDescription('');
+                    setErrorMessage('Error retrieving Pokémon data.');
                 });
         } else {
             setSelectedPokemon(null);
+            setErrorMessage(`No Pokémon found with name '${searchTerm}'.`);
         }
     };
 
@@ -44,7 +68,8 @@ const Pokemon = () => {
         <Container maxWidth="sm">
             <SearchBar value={searchTerm} onChange={handleSearchTermChange} />
             <SearchButton onClick={handleSearchButtonClick} />
-            {selectedPokemon && <PokemonCard pokemon={selectedPokemon} />}
+            {errorMessage && <div>{errorMessage}</div>}
+            {selectedPokemon && <PokemonCard pokemon={selectedPokemon} description={pokemonDescription} />}
         </Container>
     );
 };
