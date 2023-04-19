@@ -5,7 +5,7 @@ import {
     CardHeader,
     CardMedia,
     Typography
-} from '@material-ui/core';
+} from '@mui/material';
 
 const PokemonCard = ({ title, image, alt, children }) => {
     return (
