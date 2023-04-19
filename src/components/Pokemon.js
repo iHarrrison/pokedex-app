@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { Container } from '@material-ui/core';
+import { Container } from '@mui/material';
 import SearchBar from './SearchBar';
 import SearchButton from './SearchButton';
 import PokemonSummary from './PokemonSummary';

@@ -4,7 +4,7 @@ import {
     AccordionSummary,
     AccordionDetails,
     Typography
-} from '@material-ui/core';
+} from '@mui/material';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 
 const PokemonAccordion = ({ title, children }) => {
