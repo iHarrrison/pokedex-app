@@ -6,8 +6,8 @@ import PokemonAccordion from './PokemonAccordion'; // Import PokemonAccordion
 const PokemonSummary = ({ pokemon, description }) => {
     return (
         <PokemonCard title={pokemon.name} image={pokemon.sprites.front_default} alt={pokemon.name}>
-            <Typography variant="body1">Height: {pokemon.height} cm</Typography>
-            <Typography variant="body1">Weight: {pokemon.weight} kg</Typography>
+            <Typography variant="body1">Height: {pokemon.height}0 cm</Typography>
+            <Typography variant="body1">Weight: {pokemon.weight} g</Typography>
             <Typography variant="body1">Abilities:</Typography>
             <ul style={{ textTransform: 'capitalize' }}>
                 {pokemon.abilities.map((ability) => (
