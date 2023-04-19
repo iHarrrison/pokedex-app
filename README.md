@@ -1,10 +1,15 @@
-# Getting Started with Create React App
+# iHarrrison's Pokedex App
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app). \
+I created this project to further enhance my knowledge and skillset with React.js and to gain some experience with hooking into an API to return some data to the user.
 
 ## Available Scripts
 
-In the project directory, you can run:
+For first time set-up, please use:
+
+### `npm install`
+
+as this installs the required dependencies. 
 
 ### `npm start`
 
