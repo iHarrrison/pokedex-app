@@ -1,30 +1,65 @@
-name: Pokedex CI
+
+# Name of workflow
+name: CI
+
+# When workflow is triggered
 on:
   push:
-    branches: [main]
+    branches:
+      - main
   pull_request:
-    branches: [main]
-jobs:
-  build:
-    runs-on: ubuntu-20.04
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
-      - name: Use Node.js
-        uses: actions/setup-node@v2
-        with:
-          node-version: '14.x'
-      - name: Install dependencies
-        run: npm install
-      - name: Build
-        run: npm run build
 
+permissions:
+  pull-requests: write
+
+# Jobs to carry out
+jobs:
   deploy:
-    needs: build
-    runs-on: ubuntu-20.04
+    # Operating system to run job on
+    runs-on: ubuntu-latest
+
+    # Steps in job
     steps:
-      - name: Netlify Deploy
-        uses: jsmrcaga/action-netlify-deploy@v1.7.1
+      # Get code from repo
+      - name: Checkout code
+        uses: actions/checkout@v1
+
+          # Install NodeJS
+          - name: Use Node.js 12.x
+            uses: actions/setup-node@v1
+            with:
+              node-version: 12.x
+
+      # Run npm install and build on our code
+      - run: npm install
+      - run: npm run build --if-present
+
+      # Deploy to Netlify using our dev secrets
+      - name: Deploy to pre-production netlify
+        id: deploy-staging-netlify
+        if: github.ref != 'refs/heads/main'
+        uses: netlify/actions/cli@master
+        with:
+          args: deploy --dir=build
+        env:
+          NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
+          NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
+
+      - name: Netlify Preview URL
+        if: github.ref != 'refs/heads/main'
+        uses: unsplash/comment-on-pr@master
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          OUTPUT: "This pull request is being automatically deployed to Netlify.\n\n🔍 Inspect: ${{ steps.deploy-staging-netlify.outputs.NETLIFY_LOGS_URL }}\n✅ Preview: ${{ steps.deploy-staging-netlify.outputs.NETLIFY_URL }}"
+        with:
+          msg: ${{ env.OUTPUT }}
+          check_for_duplicate_msg: false
+
+      - name: Deploy to netlify
+        if: github.ref == 'refs/heads/main'
+        uses: netlify/actions/cli@master
+        with:
+          args: deploy --dir=build --prod
         env:
           NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
           NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
