@@ -1,4 +1,3 @@
-
 # Name of workflow
 name: CI
 
@@ -24,11 +23,11 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v1
 
-          # Install NodeJS
-          - name: Use Node.js 12.x
-            uses: actions/setup-node@v1
-            with:
-              node-version: 12.x
+      # Install NodeJS
+      - name: Use Node.js 12.x
+        uses: actions/setup-node@v1
+        with:
+          node-version: 12.x
 
       # Run npm install and build on our code
       - run: npm install
