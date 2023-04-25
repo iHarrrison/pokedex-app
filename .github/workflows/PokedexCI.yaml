@@ -1,25 +1,64 @@
-name: Pokedex CI
+# Name of workflow
+name: CI
 
+# When workflow is triggered
 on:
   push:
-    branches: [ main ]
+    branches:
+      - main
   pull_request:
-    branches: [ main ]
 
+permissions:
+  pull-requests: write
+
+# Jobs to carry out
 jobs:
-  build:
-
+  deploy:
+    # Operating system to run job on
     runs-on: ubuntu-latest
 
-    strategy:
-      matrix:
-        node-version: [16.x, 17.x, 18.x]
-
+    # Steps in job
     steps:
-      - uses: actions/checkout@v3
-      - name: Use Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v3
+      # Get code from repo
+      - name: Checkout code
+        uses: actions/checkout@v1
+
+      # Install NodeJS
+      - name: Use Node.js 12.x
+        uses: actions/setup-node@v1
         with:
-          node-version: ${{ matrix.node-version }}
+          node-version: 12.x
+
+      # Run npm install and build on our code
       - run: npm install
-      - run: npm run build
+      - run: npm run build --if-present
+
+      # Deploy to Netlify using our dev secrets
+      - name: Deploy to pre-production netlify
+        id: deploy-staging-netlify
+        if: github.ref != 'refs/heads/main'
+        uses: netlify/actions/cli@master
+        with:
+          args: deploy --dir=build
+        env:
+          NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
+          NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
+
+      - name: Netlify Preview URL
+        if: github.ref != 'refs/heads/main'
+        uses: unsplash/comment-on-pr@master
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          OUTPUT: "This pull request is being automatically deployed to Netlify.\n\n🔍 Inspect: ${{ steps.deploy-staging-netlify.outputs.NETLIFY_LOGS_URL }}\n✅ Preview: ${{ steps.deploy-staging-netlify.outputs.NETLIFY_URL }}"
+        with:
+          msg: ${{ env.OUTPUT }}
+          check_for_duplicate_msg: false
+
+      - name: Deploy to netlify
+        if: github.ref == 'refs/heads/main'
+        uses: netlify/actions/cli@master
+        with:
+          args: deploy --dir=build --prod
+        env:
+          NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
+          NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
