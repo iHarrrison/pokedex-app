@@ -1,13 +1,13 @@
 import React from 'react';
 import Typography from '@mui/material/Typography';
-import PokemonCard from './PokemonCard'; // Import PokemonCard
-import PokemonAccordion from './PokemonAccordion'; // Import PokemonAccordion
+import PokemonCard from './PokemonCard';
+import PokemonAccordion from './PokemonAccordion';
 
 const PokemonSummary = ({ pokemon, description }) => {
     return (
         <PokemonCard title={pokemon.name} image={pokemon.sprites.front_default} alt={pokemon.name}>
-            <Typography variant="body1">Height: {pokemon.height}0 cm</Typography>
-            <Typography variant="body1">Weight: {pokemon.weight} g</Typography>
+            <Typography variant="body1">Height: {pokemon.height * 10}cm</Typography>
+            <Typography variant="body1">Weight: {pokemon.weight / 10}kg</Typography>
             <Typography variant="body1">Abilities:</Typography>
             <ul style={{ textTransform: 'capitalize' }}>
                 {pokemon.abilities.map((ability) => (
