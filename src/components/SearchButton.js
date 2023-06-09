@@ -4,7 +4,7 @@ import { Button } from '@mui/material';
 
 const SearchButton = ({ onClick }) => {
     return (
-        <Button variant="contained" color="primary" onClick={onClick}>
+        <Button variant="contained" color="secondary" onClick={onClick}>
             Search
         </Button>
     );
